@@ -30,14 +30,19 @@ professor_agent = Agent(
     role="Especialista em Nerd‑o com busca avançada",
     model=OpenRouter(id="google/gemini-2.5-flash", api_key=api_key, temperature=0.7),
     knowledge=rag_agent,
-    tools=[ReasoningTools(add_instructions=True)],
     show_tool_calls=True,
     markdown=True,
 )
 
-def pergunta_genérica(texto):
+def ask_generic(texto):
     print("🤖 Resposta Genérica:")
-    professor_agent.print_response(texto, stream=True)
+    response_stream = professor_agent.run(message=texto, stream=True, stream_intermediate_steps=True)
+    for response in response_stream:
+        print(response.event)
+        print(response.content)
+        if "ToolCall" in response.event:
+            print(response.tool)
+        print("-" * 50 + "\n")
 
 if __name__ == "__main__":
-    pergunta_genérica("O que é a Nerd-o?")
+    ask_generic("O que é a Nerd-o?")

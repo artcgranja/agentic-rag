@@ -13,6 +13,9 @@ dependencies = [
     "psycopg",
     "psycopg2-binary",
     "pgvector",
+    "streamlit",
+    "pypdf",
+    "chonkie",
 ]
 requires-python = ">=3.8"
 
